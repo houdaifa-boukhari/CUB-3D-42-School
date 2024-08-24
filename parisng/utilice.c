@@ -6,7 +6,7 @@
 /*   By: hel-bouk <hel-bouk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 10:45:08 by hel-bouk          #+#    #+#             */
-/*   Updated: 2024/08/23 16:27:56 by hel-bouk         ###   ########.fr       */
+/*   Updated: 2024/08/24 20:53:33 by hel-bouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,31 +111,33 @@ void	print_information(t_inf inf)
 	printf("new_color:%d\n", inf.color_c);
 }
 
-bool	color_is_valid(char	**color)
+bool	color_is_valid(char	**color, int **color_)
 {
 	int		i;
 	int		j;
-	bool	check;
 	t_color	n_color;
 
 	i = -1;
-	check = false;
+	for(int i = 0; color[i]; i++)
+		printf("{%s->}", color[i]);
 	while (color[++i])
 	{
 		j = -1;
 		while (color[i][++j])
-			if (ft_isdigit(color[i][j]))
-				check = true;
-		if (!check)
-			return (false);
-		check = true;
+		{
+			if (ft_isdigit(color[i][j]) == 0 && !is_space(color[i][j]))
+				return (false);
+			else
+				printf("{%c}\n", color[i][j]);
+		}
 	}
 	n_color.r = ft_atoi(color[0]);
 	n_color.g = ft_atoi(color[1]);
-	n_color.r = ft_atoi(color[2]);
+	n_color.b = ft_atoi(color[2]);
 	if (n_color.r > 255 || n_color.r < 0 || n_color.g > 255
 		|| n_color.g < 0 || n_color.b > 255 || n_color.b < 0)
 		return (false);
+	**color_ = (n_color.r << 16 | n_color.g << 8 | n_color.b);
 	return (true);
 }
 bool	catch_color(char *p_color, int *n_color)
@@ -145,21 +147,18 @@ bool	catch_color(char *p_color, int *n_color)
 	char	*color;
 	char	**rgb_color;
 
-	start = 0;
-	while (p_color[start] && !ft_isdigit(p_color[start]))
+	start = 1;
+	while (p_color[start] && is_space(p_color[start]))
 		start++;
 	end = ft_strlen(p_color) - 1;
-	while (p_color[end] && !ft_isdigit(p_color[end]))
-		end--;
 	color = ft_substr(p_color, start, (end - start + 1));
 	if (!color || !*color)
 		return (free(color), false);
 	rgb_color = ft_split(color, ',');
 	if (count_arrays(rgb_color) != 3)
 		return(free_arrays(rgb_color), free(color), false);
-	if (!color_is_valid(rgb_color))
+	if (!color_is_valid(rgb_color, &n_color))
 		return (free_arrays(rgb_color), free(color), false);
-	*n_color = (ft_atoi(rgb_color[0]) << 16 | ft_atoi(rgb_color[0]) << 8 | ft_atoi(rgb_color[0]));
 	return (free_arrays(rgb_color), free(color), true);
 }
 
