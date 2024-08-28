@@ -6,7 +6,7 @@
 /*   By: hel-bouk <hel-bouk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 10:44:49 by hel-bouk          #+#    #+#             */
-/*   Updated: 2024/08/23 14:50:52 by hel-bouk         ###   ########.fr       */
+/*   Updated: 2024/08/25 10:25:25 by hel-bouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,16 @@ void    take_map(t_map **map, int fd)
 
 void    take_information(t_map *map, t_inf *inf)
 {
-	int i;
+	int 	i;
 	
+	i = count_exist_line(map);
+	if (i < 6)
+		return (inf->inf_map = NULL, free(NULL));
 	i = 0;
 	inf->inf_map = (char **)malloc(sizeof(char *) * (7));
 	if (!inf->inf_map)
 		return ;
-	while (i < 6)
+	while (i < 6 && map)
 	{
 		if (map->row && *(map->row) != '\0')
 			inf->inf_map[i++] = ft_strdup(map->row);
@@ -49,6 +52,8 @@ void	parsing_information(t_inf *inf)
 	int		i;
 
 	i = 0;
+	if (!inf->inf_map)
+		return ;
 	while (inf->inf_map[i])
 	{
 		if (ft_strncmp(inf->inf_map[i], "NO ", 3) == 0)
@@ -65,4 +70,51 @@ void	parsing_information(t_inf *inf)
 			inf->f_color = ft_strdup(inf->inf_map[i]);
 		i++;
 	}
+}
+
+bool	color_is_valid(char	**color, int **color_)
+{
+	int		i;
+	int		j;
+	t_color	n_color;
+
+	i = -1;
+	while (color[++i])
+	{
+		j = -1;
+		while (color[i][++j])
+		{
+			if (ft_isdigit(color[i][j]) == 0 && !is_space(color[i][j]))
+				return (false);
+		}
+	}
+	n_color.r = ft_atoi(color[0]);
+	n_color.g = ft_atoi(color[1]);
+	n_color.b = ft_atoi(color[2]);
+	if (n_color.r > 255 || n_color.r < 0 || n_color.g > 255
+		|| n_color.g < 0 || n_color.b > 255 || n_color.b < 0)
+		return (false);
+	**color_ = (n_color.r << 16 | n_color.g << 8 | n_color.b);
+	return (true);
+}
+bool	catch_color(char *p_color, int *n_color)
+{
+	int		end;
+	int 	start;
+	char	*color;
+	char	**rgb_color;
+
+	start = 1;
+	while (p_color[start] && is_space(p_color[start]))
+		start++;
+	end = ft_strlen(p_color) - 1;
+	color = ft_substr(p_color, start, (end - start + 1));
+	if (!color || !*color)
+		return (free(color), false);
+	rgb_color = ft_split(color, ',');
+	if (count_arrays(rgb_color) != 3)
+		return(free_arrays(rgb_color), free(color), false);
+	if (!color_is_valid(rgb_color, &n_color))
+		return (free_arrays(rgb_color), free(color), false);
+	return (free_arrays(rgb_color), free(color), true);
 }

@@ -7,6 +7,19 @@
 # include "../libft/libft.h"
 # include "../get_next_line/get_next_line.h"
 
+#define V_CH " 10NSEW"
+#define P_PLAYER "NSEW"
+#define ERR_CH "Invalid character or you have more than one player"
+#define NOT_EXIST "Map not exist"
+#define MAP_ERR "map is not sourounded or closed"
+#define MAP_V "MAP is not valid"
+#define PY_ERR "ERR dont have Player"
+typedef struct s_point
+{
+	int	x;
+	int	y;
+}		t_point;
+
 typedef struct s_map
 {
 	char			*row;
@@ -36,14 +49,30 @@ typedef struct s_inf
 	int		color_f;
 }			t_inf;
 
-void	free_inf(t_inf	inf);
-bool	check_errors(t_inf inf);
+void	print_map(char **map);
+int		get_max(t_map *map);
+void	free_inf(t_inf	*inf);
+void    free_map(t_map **map);
+bool	check_errors(t_inf *inf);
+bool	valide_path(char **path);
+bool	check_map_err(t_map *map);
+char	**built2darray(t_map *map);
 void    initialize_inf(t_inf *inf);
+void	print_information(t_inf inf);
+int		count_exist_line(t_map *map);
 void    take_map(t_map **map, int fd);
 void	valide_arg(char *file, int *fd);
 void	parsing_information(t_inf *inf);
-void    take_information(t_map *map, t_inf *inf);
+bool	map_isclosed(char **map, char c);
+bool	valid_ch(t_map *map, t_inf *inf);
+t_map	*get_position(t_map *map, int idx);
 void	find_start(t_map *map, char	*line);
 void	creat_list(t_map **map, char *line);
+t_point	find_empty_space(char **map, char c);
+bool	flood_fill(char **tab, t_point begin);
+bool	catch_color(char *p_color, int *n_color);
+void    take_information(t_map *map, t_inf *inf);
+char	*fill_spaces(char	*str, int len, int size);
+bool	check_wall(char **map, t_point begin, t_point size);
 
 #endif

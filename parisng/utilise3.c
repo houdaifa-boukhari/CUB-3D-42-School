@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   initialize.c                                       :+:      :+:    :+:   */
+/*   utilise3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hel-bouk <hel-bouk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/23 13:23:05 by hel-bouk          #+#    #+#             */
-/*   Updated: 2024/08/28 12:08:26 by hel-bouk         ###   ########.fr       */
+/*   Created: 2024/08/28 11:29:06 by hel-bouk          #+#    #+#             */
+/*   Updated: 2024/08/28 11:34:18 by hel-bouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void    initialize_inf(t_inf *inf)
+bool	check_map_err(t_map *map)
 {
-	inf->e_path = NULL;
-	inf->w_path = NULL;
-	inf->n_path = NULL;
-	inf->s_path = NULL;
-	inf->inf_map = NULL;
-	inf->f_color = NULL;
-	inf->c_color = NULL;
-	inf->position = '\0';
-}
+	int		i;
+	t_map	*ptr;
 
-// void	initialize_cords(char **map)
-// {
-	
-// }
+	i = 0;
+	if (!map)
+		return (false);
+	ptr = get_position(map, 7);
+	while (ptr)
+	{
+		if (!ptr->row[0])
+			return (ft_putendl_fd(MAP_V, STDERR_FILENO), false);
+		ptr = ptr->next;
+	}
+	return (true);
+}

@@ -6,7 +6,7 @@
 /*   By: hel-bouk <hel-bouk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:29:42 by hel-bouk          #+#    #+#             */
-/*   Updated: 2024/08/23 09:43:09 by hel-bouk         ###   ########.fr       */
+/*   Updated: 2024/08/25 09:52:01 by hel-bouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_va
 }		t_va;
 
 bool	is_space(char c);
+bool	check_ch(char c, char *delim);
 void	*ft_memset(void *s, int c, size_t n);
 int		ft_isalpha(int c);
 int		find_char(char *str, char c);
