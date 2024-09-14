@@ -6,7 +6,7 @@
 /*   By: hel-bouk <hel-bouk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:52:22 by hel-bouk          #+#    #+#             */
-/*   Updated: 2024/08/28 12:44:06 by hel-bouk         ###   ########.fr       */
+/*   Updated: 2024/08/29 18:12:03 by hel-bouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ bool	map_isclosed(char **map, char c)
 
 bool	check_wall(char **map, t_point begin, t_point size)
 {
-	if (map[begin.y][begin.x] == '0')
+	if (map[begin.y][begin.x] != '1')
 	{
 		if (((begin.x + 1) < size.x) && map[begin.y][begin.x + 1] == 'X')
 			return (false);

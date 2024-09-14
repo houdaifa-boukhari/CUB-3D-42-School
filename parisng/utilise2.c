@@ -6,7 +6,7 @@
 /*   By: hel-bouk <hel-bouk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 16:59:24 by hel-bouk          #+#    #+#             */
-/*   Updated: 2024/08/28 12:39:24 by hel-bouk         ###   ########.fr       */
+/*   Updated: 2024/08/29 18:27:23 by hel-bouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	fill(char **tab, t_point size, t_point begin, char old, char new)
 		ft_putendl_fd(MAP_ERR, STDERR_FILENO);
 		return (false);
 	}
-	else if (!check_wall(tab, begin, size))
+	if (!check_wall(tab, begin, size))
 	{
 		ft_putendl_fd(MAP_ERR, STDERR_FILENO);
 		return (false);
