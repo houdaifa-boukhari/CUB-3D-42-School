@@ -6,6 +6,7 @@
 # include <stdio.h>
 # include "../libft/libft.h"
 # include "../get_next_line/get_next_line.h"
+# include "../MLX/include//MLX42/MLX42.h"
 
 #define PI 3.14
 #define V_CH " 10NSEW"
@@ -86,16 +87,28 @@ typedef struct s_player
 	char	**map;
 	float	x;
 	float	y;
+	int 	map_height;
+	int		map_weidth;
 	unsigned int	color_sky;
 	unsigned int	color_floor;		
 	double	angle;
 	float 	ro;  // In radians
 
-	// mlx_image_t* img;
-	// mlx_image_t *black;
-	// mlx_image_t *ray;
-	// mlx_image_t *wall;
-	// mlx_t *mlx;
+	mlx_image_t* img;
+	mlx_image_t *black;
+	mlx_image_t *ray;
+	mlx_image_t *wall;
+	mlx_t *mlx;
 } t_player;
+
+#define MOVE_SPEED 7
+#define ROTATE_SPEED 15 * (M_PI/180) //0.01745329252 =>> 0.1745329252
+#define FOV 60 * (M_PI/180)  // 60 degrees field of view (FOV) in radians
+#define PEX 32 
+#define HEIGHT 1200
+#define WIDTH 1500
+#define NUM_RAYS (WIDTH)
+
+void draw_rays2(t_player *player);
 
 #endif

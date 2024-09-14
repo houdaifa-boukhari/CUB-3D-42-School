@@ -6,7 +6,7 @@
 /*   By: hel-bouk <hel-bouk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 10:04:47 by hel-bouk          #+#    #+#             */
-/*   Updated: 2024/09/14 10:56:17 by hel-bouk         ###   ########.fr       */
+/*   Updated: 2024/09/14 12:40:21 by hel-bouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	assign_player(t_player *player, char **map, t_inf inf)
 	player->color_sky = inf.color_c;
 	player->color_floor = inf.color_f;
 	player->map = map;
+	player->map_height = count_arrays(map);
+	player->map_weidth = ft_strlen(map[0]); 
 	if (inf.position == 'N')
 		player->angle = (PI / 2.0);
 	else if (inf.position == 'S')
@@ -87,5 +89,4 @@ int main(int ac, char **av)
 	}
 	else
 		ft_putendl_fd("Use ./cub3D file.cub", STDERR_FILENO);
-	
 }
