@@ -2,13 +2,13 @@ CC = cc
 RM = rm -f
 NAME = cub3D
 HAEDER = cub3d.h
-CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 SRC = ./parisng/cub3d.c ./parisng/utilise2.c ./parisng/initialize.c ./parisng/utilice.c ./parisng/check_map.c \
 	./parisng/handle_err.c ./recasting/utilise.c \
 	./get_next_line/get_next_line.c ./get_next_line/get_next_line_utils.c ./parisng/utilice1.c ./parisng/utilise3.c\
 
 OBJS = $(SRC:.c=.o)
-LIBS = -L./libft -lft
+LIBS = -L./libft -lft MLX/build/libglfw3.a MLX/build/libmlx42.a  -framework Cocoa -framework OpenGL -framework IOKit
 
 all: libft $(NAME)
 

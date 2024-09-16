@@ -17,6 +17,8 @@
 #define MAP_V "MAP is not valid"
 #define PY_ERR "ERR dont have Player"
 
+typedef int t_int;
+
 typedef struct s_point
 {
 	int	x;
@@ -89,16 +91,21 @@ typedef struct s_player
 	float	y;
 	int 	map_height;
 	int		map_weidth;
+	t_int	size_colone;
 	unsigned int	color_sky;
 	unsigned int	color_floor;		
 	double	angle;
 	float 	ro;  // In radians
-
+	mlx_texture_t *n_texter;
+	mlx_texture_t *s_texter;
+	mlx_texture_t *e_texter;
+	mlx_texture_t *w_texter;
 	mlx_image_t* img;
 	mlx_image_t *black;
 	mlx_image_t *ray;
 	mlx_image_t *wall;
 	mlx_t *mlx;
+	int yy;
 } t_player;
 
 #define MOVE_SPEED 7
@@ -110,5 +117,6 @@ typedef struct s_player
 #define NUM_RAYS (WIDTH)
 
 void draw_rays2(t_player *player);
+void my_keyhook(mlx_key_data_t keydata, void* param);
 
 #endif

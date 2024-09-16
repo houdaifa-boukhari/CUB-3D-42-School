@@ -76,9 +76,7 @@ void draw_rays2(t_player *player)
             first_x=(floor(player->x/PEX)*PEX)+PEX;
         else    
             first_x = (floor(player->x/PEX)*PEX)-0.001;
-
         first_y = player->y+( first_x -player->x)*tan(ray_angle);
-
         next_v_x =first_x;
         next_v_y =first_y;
          if(!(ray_angle > M_PI / 2 && ray_angle < 3 * M_PI / 2))
@@ -89,16 +87,13 @@ void draw_rays2(t_player *player)
         while (next_v_x>=0 && next_v_x<=WIDTH && next_v_y >=0 && next_v_y<=HEIGHT)
         {
 
-           
             if((int)(next_v_y/PEX) <= player->map_height  &&((int)(next_v_x/PEX)) < (int)ft_strlen(player->map[(int)(next_v_y/PEX)]) && player->map[(int)(next_v_y/PEX)][(int)(next_v_x/PEX)]=='1')
             {
                 distance_v =(sqrt(pow(next_v_x - player->x, 2) + pow(next_v_y - player->y, 2)));
-            
                 break;
             }
             else
             {
-
                 next_v_x+=xa;
                 next_v_y+=ya;
             }
@@ -127,25 +122,132 @@ void draw_rays2(t_player *player)
             // printf("sq=====%f\n",sq);
 
             while (wall_t< wall_b)
+            {
+                printf("{%d, %f}\n", i, wall_t);
                 if(flag)
-                    mlx_put_pixel(player->img,i,wall_t++,0xFF0000FF);
+                    mlx_put_pixel(player->img, i, wall_t++, 0xFF0000FF);
                 else    
-                    mlx_put_pixel(player->img,i,wall_t++,0xFFFFFFFF);
+                    mlx_put_pixel(player->img, i, wall_t++, 0xFFFFFFFF);
+            }
             while (wall_b < WIDTH)
             {
-                mlx_put_pixel(player->img,i,wall_b++,0x00FF00FF);
+                mlx_put_pixel(player->img, i, wall_b++, 0x00FF00FF);
             }
             while (sq>0)
             {
-                mlx_put_pixel(player->img,i,sq--,0x0000FFF0);
+                mlx_put_pixel(player->img, i, sq--,0x0000FFF0);
             }
-            
-            
-            
         }
         //////////
         i++;
         ray_angle+=(FOV/NUM_RAYS);
         
     }
+}
+
+void clear_screen(t_player *p)
+{
+    int y = 0;
+    int x;
+    while (y < (int)p->black->height)
+    {
+        x = 0;
+        while (x < (int)p->black->width)
+        {
+            mlx_put_pixel(p->black, x, y, 0x000000FF);
+            x++;
+        }
+        y++;
+    }
+}
+
+
+void my_keyhook(mlx_key_data_t keydata, void* param)
+{
+    t_player *player = (t_player *)param;
+
+    /////////////////////
+   
+    ////////
+    mlx_delete_image(player->mlx,player->img);
+    player->img = mlx_new_image(player->mlx, 1500, 1200);
+
+    mlx_delete_image(player->mlx,player->ray);
+    player->ray = mlx_new_image(player->mlx, 1500, 1200);
+    mlx_image_to_window(player->mlx, player->ray, 0, 0);
+     mlx_image_to_window(player->mlx, player->img, 0, 0);
+    if (keydata.key == MLX_KEY_W  && keydata.action)  // Move forward
+    {
+        float x =(cos(player->angle) * MOVE_SPEED);
+        float y =(sin(player->angle) * MOVE_SPEED);
+ 
+        float ray_x = player->x + x;
+        float ray_y = player->y + y;
+        if(player->map[(int)(player->y/PEX)][(int)(ray_x/PEX)] !='1' && player->map[(int)(ray_y/PEX)][(int)(player->x/PEX)] !='1')
+        {
+   
+            player->x = ray_x;
+            player->y = ray_y;
+        }
+  
+    }
+    if (keydata.key == MLX_KEY_S&& keydata.action)  // Move backward
+    {
+        float x =(cos(player->angle) * -MOVE_SPEED);
+        float y =(sin(player->angle) * -MOVE_SPEED);
+         float ray_x = player->x + x;
+        float ray_y = player->y + y;
+        if(player->map[(int)(player->y/PEX)][(int)(ray_x/PEX)] !='1' && player->map[(int)(ray_y/PEX)][(int)(player->x/PEX)] !='1')
+        {
+        player->x = ray_x;
+        player->y = ray_y;
+        }
+    }
+    if(keydata.key==MLX_KEY_A&& keydata.action)
+    {
+        float x =(cos(player->angle -M_PI/2) * MOVE_SPEED);
+        float y =(sin(player->angle -M_PI/2) * MOVE_SPEED);
+         float ray_x = player->x + x;
+        float ray_y = player->y + y;
+        if(player->map[(int)(player->y/PEX)][(int)(ray_x/PEX)] !='1' && player->map[(int)(ray_y/PEX)][(int)(player->x/PEX)] !='1')
+        {
+        player->x = ray_x;
+        player->y = ray_y;
+        }
+
+    }
+    if(keydata.key==MLX_KEY_D && keydata.action)
+    {
+        float x =(cos(player->angle +M_PI/2) * MOVE_SPEED);
+        float y =(sin(player->angle +M_PI/2) * MOVE_SPEED);
+         float ray_x = player->x + x;
+        float ray_y = player->y + y;
+        if(player->map[(int)(player->y/PEX)][(int)(ray_x/PEX)] !='1' && player->map[(int)(ray_y/PEX)][(int)(player->x/PEX)] !='1')
+        {
+        player->x = ray_x;
+        player->y = ray_y;
+        }
+
+    }
+    
+    if (keydata.key == MLX_KEY_LEFT && keydata.action)  // Rotate left
+    {
+        player->ro = -1;
+    
+    }
+    if (keydata.key == MLX_KEY_RIGHT && keydata.action)  // Rotate right
+    {
+        player->ro = 1;
+    }
+    if (keydata.key == MLX_KEY_ESCAPE)
+        exit(0);
+    player->angle += player->ro * ROTATE_SPEED;
+
+ 
+    clear_screen(player);
+    // draw_wall(player);
+    // draw_rays(player);
+    draw_rays2(player);
+   
+    mlx_put_pixel(player->img, (player->x), (player->y), 0xFF0000FF);
 }
