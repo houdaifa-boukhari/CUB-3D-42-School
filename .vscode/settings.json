@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "sstream": "c",
-        "libft.h": "c",
-        "cub3d.h": "c"
-    }
-}
