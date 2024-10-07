@@ -6,7 +6,7 @@
 /*   By: hel-bouk <hel-bouk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/05 14:11:15 by hel-bouk          #+#    #+#             */
-/*   Updated: 2024/08/23 15:51:46 by hel-bouk         ###   ########.fr       */
+/*   Updated: 2024/10/02 12:57:32 by hel-bouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,33 +65,33 @@ int	ft_atoi(const char *str)
 	return (re * signe);
 }
 
-int	atoi_(char *str, int *flag)
+int	atoi_(char *str)
 {
 	int			i;
-	int			sign;
 	long long	result;
 
 	i = 0;
-	sign = 1;
 	result = 0;
+	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+		i++;
 	if (str && (str[i] == '-' || str[i] == '+'))
 	{
 		if (str[i] == '-')
-			sign *= -1;
+			return (-1);
 		i++;
 	}
-	if (!str || !(str[i] >= '0' && str[i] <= '9'))
-		*flag = 1;
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		result = result * 10 + (str[i] - '0');
-		if (check(result, (str[i] - '0')))
-			*flag = 1;
+		if (result < 0 || result > 255)
+			return (-1);
 		i++;
 	}
-	if (str[i] != '\0')
-		*flag = 1;
-	return (result * sign);
+	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+		i++;
+	if (str[i])
+		return (-1);
+	return (result);
 }
 
 int	count_arrays(char **str)

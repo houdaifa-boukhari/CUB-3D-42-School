@@ -6,12 +6,14 @@
 /*   By: hel-bouk <hel-bouk@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 14:29:42 by hel-bouk          #+#    #+#             */
-/*   Updated: 2024/08/25 09:52:01 by hel-bouk         ###   ########.fr       */
+/*   Updated: 2024/10/02 19:29:50 by hel-bouk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
+
+# include <fcntl.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>
@@ -31,6 +33,7 @@ typedef struct s_va
 	int	nb_words;
 }		t_va;
 
+int		count_ch(char *str, char c);
 bool	is_space(char c);
 bool	check_ch(char c, char *delim);
 void	*ft_memset(void *s, int c, size_t n);
@@ -46,7 +49,7 @@ size_t	ft_strlen(const char *str);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size_dest);
 char	*ft_strnstr(const char *str, const char *find, size_t n);
 int		ft_atoi(const char *str);
-int		atoi_(char *str, int *flag);
+int		atoi_(char *str);
 int		ft_isalnum(int c);
 int		ft_isdigit(int c);
 int		ft_strcmp(char *s1, char *s2);
@@ -83,5 +86,19 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 void	free_arrays(char **str);
 char	**new_split(char *str);
 int		hexa_to_int(char *str);
+
+//get_nex_line
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
+
+char	*read_management(int fd, char **temp, char *buffer);
+char	*get_next_line(int fd);
+int		strlen_(char *str);
+char	*strjoin(char *str, char *str1);
+char	*update(char *str);
+char	*last_word(char *str);
+int		check_line(char *str);
 
 #endif
